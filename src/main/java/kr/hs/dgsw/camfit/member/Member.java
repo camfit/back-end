@@ -1,21 +1,22 @@
 package kr.hs.dgsw.camfit.member;
 
+import kr.hs.dgsw.camfit.authority.Authority;
 import kr.hs.dgsw.camfit.board.Board;
 import kr.hs.dgsw.camfit.camp.Camp;
 import kr.hs.dgsw.camfit.reservation.Reservation;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "member")
 public class Member {
 
@@ -26,10 +27,17 @@ public class Member {
     private String username;
     private String password;
     private LocalDate regdate;
-    private String role;
     private String gender;
     private String dateOfBirth;
     private String phoneNumber;
+
+    @ManyToMany
+    @JoinTable(
+            name = "member_authority",
+            joinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")}
+    )
+    private Set<Authority> authorities;
 
     @OneToMany(
             mappedBy = "member",
@@ -54,16 +62,16 @@ public class Member {
     )
     private Camp camp;
 
-    @Builder
-    public Member(String username, String password, String gender, String dateOfBirth, String phoneNumber) {
+   /* @Builder
+    public Member(String username, String password, String gender, String dateOfBirth, String phoneNumber, Authority authority) {
         this.username = username;
         this.password = password;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
         this.regdate = LocalDate.now();
-        this.role = "ROLE_USER";
-    }
+        this.authorities
+    }*/
 
     public void update(String username, String password, String gender, String dateOfBirth, String phoneNumber) {
         this.username = username;
