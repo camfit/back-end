@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,16 +25,19 @@ public class CampController {
     private final CampService campService;
 
     @PostMapping("/registration")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public void registration(@RequestBody @Valid CampInsertDTO campInsertDTO) {
         campService.insert(campInsertDTO);
     }
 
     @PutMapping("/modify")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public void modify(@RequestBody @Valid CampUpdateDTO campUpdateDTO) {
         campService.update(campUpdateDTO);
     }
 
     @DeleteMapping("/delete")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public void delete(@RequestParam(value = "member_id") Long memberId,
                        @RequestParam(value = "camp_id") Long campId) {
 

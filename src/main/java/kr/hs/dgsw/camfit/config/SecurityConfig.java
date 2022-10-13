@@ -70,7 +70,8 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/member/join").permitAll()
+                //.antMatchers("/member/join").permitAll()
+                .antMatchers("/").permitAll()
 
                 .anyRequest().authenticated()
 

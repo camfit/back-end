@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,16 +27,19 @@ public class BoardController {
     private final PhotoService photoService;
 
     @PostMapping("/post")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public void post(@RequestBody @Valid BoardInsertDTO boardInsertDTO, List<MultipartFile> files) throws IOException {
         boardService.insert(boardInsertDTO, files);
     }
 
     @PutMapping("/modify")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public void modify(@RequestBody @Valid BoardUpdateDTO boardUpdateDTO, List<MultipartFile> files) throws IOException {
         boardService.update(boardUpdateDTO, files);
     }
 
     @DeleteMapping("/delete")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public void delete(@RequestParam(value = "member_id") Long memberId,
                        @RequestParam(value = "board_id") Long boardId) {
 

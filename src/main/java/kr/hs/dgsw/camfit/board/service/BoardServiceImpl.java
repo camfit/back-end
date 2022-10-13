@@ -15,6 +15,7 @@ import kr.hs.dgsw.camfit.photo.repository.PhotoRepository;
 import kr.hs.dgsw.camfit.photo.service.FileHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,6 +34,7 @@ public class BoardServiceImpl implements BoardService {
     private final PhotoRepository photoRepository;
 
     @Override
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public Board insert(BoardInsertDTO boardInsertDTO, List<MultipartFile> files) throws IOException {
 
         Member member = getMember(boardInsertDTO.getMemberId());
@@ -59,6 +61,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public Board update(BoardUpdateDTO boardUpdateDTO, List<MultipartFile> files) throws IOException {
 
         Member member = getMember(boardUpdateDTO.getMemberId());
@@ -82,6 +85,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public Long delete(BoardDeleteDTO boardDeleteDTO) {
 
         Member member = getMember(boardDeleteDTO.getMemberId());

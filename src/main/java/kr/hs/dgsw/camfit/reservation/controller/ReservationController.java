@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,16 +26,19 @@ public class ReservationController {
     private final ReservationService reservationService;
 
     @PostMapping("/reservation")
+    @PreAuthorize("hasAnyRole('USER')")
     public void reservation(@RequestBody @Valid ReservationInsertDTO reservationInsertDTO) {
         reservationService.insert(reservationInsertDTO);
     }
 
     @PutMapping("/modify")
+    @PreAuthorize("hasAnyRole('USER')")
     public void modify(@RequestBody @Valid ReservationUpdateDTO reservationUpdateDTO) {
         reservationService.update(reservationUpdateDTO);
     }
 
     @DeleteMapping("/cancel")
+    @PreAuthorize("hasAnyRole('USER')")
     public void cancel(@RequestParam(value = "member_id") Long memberId,
                        @RequestParam(value = "camp_id") Long campId,
                        @RequestParam(value = "reservation_id") Long reservationId) {
