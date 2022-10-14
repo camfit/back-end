@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,19 +29,23 @@ public class ReservationController {
 
     @PostMapping("/reservation")
     @PreAuthorize("hasAnyRole('USER')")
-    public void reservation(@RequestBody @Valid ReservationInsertDTO reservationInsertDTO) {
+    public ResponseEntity reservation(@RequestBody @Valid ReservationInsertDTO reservationInsertDTO) {
+
         reservationService.insert(reservationInsertDTO);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping("/modify")
     @PreAuthorize("hasAnyRole('USER')")
-    public void modify(@RequestBody @Valid ReservationUpdateDTO reservationUpdateDTO) {
+    public ResponseEntity modify(@RequestBody @Valid ReservationUpdateDTO reservationUpdateDTO) {
+
         reservationService.update(reservationUpdateDTO);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("/cancel")
     @PreAuthorize("hasAnyRole('USER')")
-    public void cancel(@RequestParam(value = "member_id") Long memberId,
+    public ResponseEntity cancel(@RequestParam(value = "member_id") Long memberId,
                        @RequestParam(value = "camp_id") Long campId,
                        @RequestParam(value = "reservation_id") Long reservationId) {
 
@@ -50,10 +56,12 @@ public class ReservationController {
                 .build();
 
         reservationService.delete(reservationDeleteDTO);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping("/")
-    public List<ReservationListDTO> reservationList(@RequestParam(value = "member_id") Long memberId,
+    public ResponseEntity<List<ReservationListDTO>> reservationList(@RequestParam(value = "member_id") Long memberId,
                                              @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
 
         List<Reservation> reservationList = reservationService.reservationList(memberId, pageable);
@@ -71,6 +79,6 @@ public class ReservationController {
             );
         }
 
-        return reservationListDTOList;
+        return ResponseEntity.ok().body(reservationListDTOList);
     }
 }
