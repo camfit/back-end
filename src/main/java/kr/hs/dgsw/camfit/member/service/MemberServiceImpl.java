@@ -71,6 +71,11 @@ public class MemberServiceImpl implements MemberService {
         return member.getId();
     }
 
+    @Override
+    public Member findByUsername(String username) {
+        return memberRepository.findByUsername(username);
+    }
+
     @Transactional(readOnly = true)
     public MemberInsertDTO getUserWithAuthorities(String username) {
         return MemberInsertDTO.from(memberRepository.findOneWithAuthoritiesByUsername(username).orElse(null));

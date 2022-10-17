@@ -24,11 +24,22 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
+    @Column(name = "username", nullable = false)
     private String username;
+
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "regdate", nullable = false)
     private LocalDate regdate;
+
+    @Column(name = "gender", nullable = false)
     private String gender;
+
+    @Column(name = "date_of_birth", nullable = false)
     private String dateOfBirth;
+
+    @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
     @ManyToMany

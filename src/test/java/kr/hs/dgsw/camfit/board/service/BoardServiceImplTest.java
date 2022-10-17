@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +37,7 @@ class BoardServiceImplTest {
     private final String content = "test content";
 
     @Test
+    @WithMockUser(roles = "USER")
     public void 글_작성() throws IOException {
         //given
         Member member = createMember(username);

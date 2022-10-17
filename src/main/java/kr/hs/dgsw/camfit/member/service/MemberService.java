@@ -8,4 +8,5 @@ public interface MemberService {
     public Member insert(MemberInsertDTO memberInsertDTO);
     public Member update(MemberUpdateDTO memberUpdateDTO);
     public Long delete(Long memberId);
+    public Member findByUsername(String username);
 }

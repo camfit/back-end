@@ -21,9 +21,16 @@ public class Board {
     @Column(name = "board_id")
     private Long id;
 
+    @Column(name = "title", nullable = false)
     private String title;
+
+    @Column(name = "content", nullable = false)
     private String content;
+
+    @Column(name = "regdate", nullable = false)
     private LocalDate regdate;
+
+    @Column(name = "modify_date")
     private LocalDate modifyDate;
 
     @ManyToOne(fetch = FetchType.LAZY)

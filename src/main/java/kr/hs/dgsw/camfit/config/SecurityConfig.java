@@ -62,16 +62,16 @@ public class SecurityConfig {
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
 
-                // enable h2-console
+                /*// enable h2-console
                 .and()
                 .headers()
                 .frameOptions()
-                .sameOrigin()
+                .sameOrigin()*/
 
                 .and()
                 .authorizeRequests()
                 //.antMatchers("/member/join").permitAll()
-                .antMatchers("/").permitAll()
+                .antMatchers("/**").permitAll()
 
                 .anyRequest().authenticated()
 

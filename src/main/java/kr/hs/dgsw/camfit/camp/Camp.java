@@ -21,17 +21,32 @@ public class Camp {
     @Column(name = "camp_id")
     private Long id;
 
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "place", nullable = false)
     private String place;
+
+    @Column(name = "money", nullable = false)
     private int money;
+
+    @Column(name = "explanation", nullable = false)
     private String explanation;
+
+    @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
+
+    @Column(name = "room_count", nullable = false)
     private Short roomCount;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "area", nullable = false)
     private Area area;
 
+    @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
+
+    @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
     @OneToMany(mappedBy = "camp")
