@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,19 +28,23 @@ public class CampController {
 
     @PostMapping("/registration")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public void registration(@RequestBody @Valid CampInsertDTO campInsertDTO) {
+    public ResponseEntity registration(@RequestBody @Valid CampInsertDTO campInsertDTO) {
+
         campService.insert(campInsertDTO);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping("/modify")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public void modify(@RequestBody @Valid CampUpdateDTO campUpdateDTO) {
+    public ResponseEntity modify(@RequestBody @Valid CampUpdateDTO campUpdateDTO) {
+
         campService.update(campUpdateDTO);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("/delete")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public void delete(@RequestParam(value = "member_id") Long memberId,
+    public ResponseEntity delete(@RequestParam(value = "member_id") Long memberId,
                        @RequestParam(value = "camp_id") Long campId) {
 
         CampDeleteDTO campDeleteDTO = CampDeleteDTO.builder()
@@ -47,10 +53,12 @@ public class CampController {
                 .build();
 
         campService.delete(campDeleteDTO);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping("/")
-    public List<CampListDTO> campList(@RequestParam(value = "name", defaultValue = "") String name,
+    public ResponseEntity<List<CampListDTO>> campList(@RequestParam(value = "name", defaultValue = "") String name,
                                @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         List<Camp> campList = campService.list(name, pageable);
@@ -70,6 +78,6 @@ public class CampController {
             );
         }
 
-        return campListDTOList;
+        return ResponseEntity.ok().body(campListDTOList);
     }
 }
