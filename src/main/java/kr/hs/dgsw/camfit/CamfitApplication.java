@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * entity cascade 사용하기 ☑
  * 게시판 구현5 PhotoController 부터
  * transactional(readOnly=ture) 설정하기 ☑
- * jwt 사용
+ * jwt 사용 ☑
  */
 @SpringBootApplication
 public class CamfitApplication {

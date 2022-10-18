@@ -14,6 +14,7 @@ import javax.persistence.Table;
 @Table(name = "authority")
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class Authority {
 
