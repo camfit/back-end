@@ -29,7 +29,7 @@ public class FileHandler {
         List<Photo> fileList = new ArrayList<>();
 
         // 전달되어 온 파일이 존재할 경우
-        if(CollectionUtils.isEmpty(multipartFiles)) {
+        if(!CollectionUtils.isEmpty(multipartFiles)) {
             // 파일명을 UUID로 저장
             UUID uuid = UUID.randomUUID();
 
@@ -46,7 +46,7 @@ public class FileHandler {
                 boolean wasSuccessful = file.mkdirs();
 
                 // 디렉터리 생성에 실패했을 경우
-                if(wasSuccessful) {
+                if(!wasSuccessful) {
                     throw new FileFailedException("파일 생성 실패");
                 }
             }
