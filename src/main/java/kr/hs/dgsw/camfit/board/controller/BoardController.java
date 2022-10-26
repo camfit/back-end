@@ -84,7 +84,7 @@ public class BoardController {
     /**
      * 개별 조회
      */
-    @GetMapping("/{id}")
+    @GetMapping("/look/{id}")
     public ResponseEntity<BoardResponseDTO> searchById(@PathVariable("id") Long id) {
 
         // 게시글 id로 해당 게시글 첨부파일 전체 조회
