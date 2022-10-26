@@ -65,9 +65,9 @@ public class BoardController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<BoardListDTO>> boardList(@RequestParam(defaultValue = "") String content,
-                                 @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 3) Pageable pageable) {
+                                 @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         List<Board> boardList = boardService.list(content, pageable);
         return ResponseEntity.ok().body(getBoardListDTOList(boardList));
@@ -75,7 +75,7 @@ public class BoardController {
 
     @GetMapping("/{username}")
     public ResponseEntity<List<BoardListDTO>> memberBoardList(@PathVariable("username") String username,
-                                       @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 3) Pageable pageable) {
+                                       @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         List<Board> boardList = boardService.memberList(username, pageable);
         return ResponseEntity.ok(getBoardListDTOList(boardList));

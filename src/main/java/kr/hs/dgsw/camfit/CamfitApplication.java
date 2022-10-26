@@ -3,6 +3,8 @@ package kr.hs.dgsw.camfit;
 import io.swagger.annotations.BasicAuthDefinition;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.web.config.PageableHandlerMethodArgumentResolverCustomizer;
 
 /**
  * 캠핑 예약날이 지나면 자동으로 예약 목록에서 없어지는 것
@@ -20,6 +22,14 @@ public class CamfitApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CamfitApplication.class, args);
+	}
+
+	@Bean
+	public PageableHandlerMethodArgumentResolverCustomizer customize() {
+		return p -> {
+			p.setOneIndexedParameters(true); // page를 1부터 시작
+			p.setMaxPageSize(10); // page의 사이즈를 10으로 저장
+		};
 	}
 
 }
