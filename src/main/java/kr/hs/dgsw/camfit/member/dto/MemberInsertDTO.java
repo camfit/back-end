@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class MemberInsertDTO {
 
@@ -31,6 +32,7 @@ public class MemberInsertDTO {
     @NotBlank
     private String phoneNumber;
 
+    // 웹이 값 주는거 아님
     private Set<AuthorityDTO> authorityDTOSet;
 
     /*@Builder

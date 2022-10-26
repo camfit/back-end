@@ -31,7 +31,7 @@ public class Member {
     private String password;
 
     @Column(name = "regdate", nullable = false)
-    private LocalDate regdate;
+    private LocalDate regdate = LocalDate.now();
 
     @Column(name = "gender", nullable = false)
     private String gender;

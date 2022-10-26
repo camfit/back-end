@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Collections;
 
 @Service
@@ -37,11 +38,12 @@ public class MemberServiceImpl implements MemberService {
 
         Member member = Member.builder()
                 .username(memberInsertDTO.getUsername())
-                .password(memberInsertDTO.getPassword())
+                .password(passwordEncoder.encode(memberInsertDTO.getPassword()))
                 .gender(memberInsertDTO.getGender())
                 .dateOfBirth(memberInsertDTO.getDateOfBirth())
                 .phoneNumber(memberInsertDTO.getPhoneNumber())
                 .authorities(Collections.singleton(authority))
+                .regdate(LocalDate.now())
                 .build();
 
         return memberRepository.save(member);
