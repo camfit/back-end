@@ -5,17 +5,17 @@ spring:
     password: 111111
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-  servlet:
-    multipart:
-      maxFileSize: 10MB
-      maxRequestSize: 20MB
-
   jpa:
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
         format_sql: true
+
+  servlet:
+    multipart:
+      maxFileSize: 10MB
+      maxRequestSize: 20MB
 
   mvc:
     pathmatch:
