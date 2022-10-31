@@ -112,10 +112,6 @@ public class BoardServiceImpl implements BoardService {
 
         Member member = memberRepository.findByUsername(username);
 
-        if(member == null) {
-            throw new WrongIdException("잘못된 회원");
-        }
-
         return boardRepository.findByMember(member, pageable);
     }
 
