@@ -70,7 +70,7 @@ public class BoardController {
                                  @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         List<Board> boardList = boardService.list(content, pageable);
-        return ResponseEntity.ok().body(getBoardListDTOList(boardList));
+        return ResponseEntity.ok().body(this.getBoardListDTOList(boardList));
     }
 
     @GetMapping("/{username}")
@@ -78,7 +78,7 @@ public class BoardController {
                                        @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         List<Board> boardList = boardService.memberList(username, pageable);
-        return ResponseEntity.ok(getBoardListDTOList(boardList));
+        return ResponseEntity.ok().body(this.getBoardListDTOList(boardList));
     }
 
     /**
@@ -101,6 +101,7 @@ public class BoardController {
         return ResponseEntity.ok().body(boardService.searchById(id, photoId));
     }
 
+    // board 객체를 boardListDTO로 변환하는 매소드
     private List<BoardListDTO> getBoardListDTOList(List<Board> boardList) {
 
         List<BoardListDTO> boardListDTOList = new ArrayList<>();
@@ -112,7 +113,7 @@ public class BoardController {
                             .title(board.getTitle())
                             .content(board.getContent())
                             .thumbnailId(!board.getPhotos().isEmpty() ? board.getPhotos().get(0).getId() : 0L) // 첨부파일이 존재한다면 첫 번째 사진을 썸네일로 사용 첨부파일이 없다면 기본 썸네일을 사용
-                            .regdate(board.getModifyDate() == null ? board.getRegdate() : board.getModifyDate())
+                            .regdate(board.getModifyDate() == null ? board.getRegdate().toString() : board.getModifyDate().toString() + "(수정됨)")
                             .username(board.getMember().getUsername())
                             .build()
             );

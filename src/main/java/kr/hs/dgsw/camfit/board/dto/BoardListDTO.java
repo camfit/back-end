@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,13 +28,13 @@ public class BoardListDTO {
     private Long thumbnailId; //썸네일 id
 
     @NotNull
-    private LocalDate regdate;
+    private String regdate;
 
     @NotBlank
     private String username;
 
     @Builder
-    public BoardListDTO(Long id, String title, String content, Long thumbnailId ,LocalDate regdate, String username) {
+    public BoardListDTO(Long id, String title, String content, Long thumbnailId ,String regdate, String username) {
         this.id = id;
         this.title = title;
         this.content = content;
