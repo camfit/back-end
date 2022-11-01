@@ -1,5 +1,6 @@
 package kr.hs.dgsw.camfit.board.controller;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import kr.hs.dgsw.camfit.board.Board;
 import kr.hs.dgsw.camfit.board.dto.*;
 import kr.hs.dgsw.camfit.board.service.BoardService;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +33,16 @@ public class BoardController {
     private final BoardService boardService;
     private final PhotoService photoService;
 
-    @PostMapping("/post")
+    @PostMapping(
+            value = "/post",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE
+    )
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity post(@RequestPart @Valid BoardInsertDTO boardInsertDTO, @RequestPart(value = "files", required = false) List<MultipartFile> files) throws IOException {
+    public ResponseEntity post(
+            @RequestPart @Valid BoardInsertDTO boardInsertDTO,
+
+            @Parameter(description = "key 값은 files이고 여러개의 파일이나 null도 허용이 가능")
+            @RequestPart(value = "files", required = false) List<MultipartFile> files) throws IOException {
 
         boardService.insert(boardInsertDTO, files);
         log.info(boardInsertDTO.getTitle() + ", 제목의 게시글 작성");
@@ -42,7 +51,8 @@ public class BoardController {
 
     @PutMapping("/modify")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity modify(@RequestPart @Valid BoardUpdateDTO boardUpdateDTO, @RequestPart(value = "files", required = false) List<MultipartFile> files) throws IOException {
+    public ResponseEntity modify(@RequestPart @Valid BoardUpdateDTO boardUpdateDTO,
+                                 @RequestPart(value = "files", required = false) List<MultipartFile> files) throws IOException {
 
         boardService.update(boardUpdateDTO, files);
         log.info(boardUpdateDTO.getTitle() + ", 제목의 게시글 수정");
@@ -52,7 +62,7 @@ public class BoardController {
     @DeleteMapping("/delete")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity delete(@RequestParam(value = "member_id") Long memberId,
-                       @RequestParam(value = "board_id") Long boardId) {
+                                 @RequestParam(value = "board_id") Long boardId) {
 
         BoardDeleteDTO boardDeleteDTO = BoardDeleteDTO.builder()
                 .memberId(memberId)
@@ -67,7 +77,7 @@ public class BoardController {
 
     @GetMapping("")
     public ResponseEntity<List<BoardListDTO>> boardList(@RequestParam(defaultValue = "") String content,
-                                 @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+                                                        @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         List<Board> boardList = boardService.list(content, pageable);
         return ResponseEntity.ok().body(this.getBoardListDTOList(boardList));
@@ -75,7 +85,7 @@ public class BoardController {
 
     @GetMapping("/{username}")
     public ResponseEntity<List<BoardListDTO>> memberBoardList(@PathVariable("username") String username,
-                                       @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+                                                              @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         List<Board> boardList = boardService.memberList(username, pageable);
         return ResponseEntity.ok().body(this.getBoardListDTOList(boardList));
