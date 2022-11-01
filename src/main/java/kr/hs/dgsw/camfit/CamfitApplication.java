@@ -1,6 +1,5 @@
 package kr.hs.dgsw.camfit;
 
-import io.swagger.annotations.BasicAuthDefinition;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +15,8 @@ import org.springframework.data.web.config.PageableHandlerMethodArgumentResolver
  * 게시판 구현5 PhotoController 부터
  * transactional(readOnly=ture) 설정하기 ☑
  * jwt 사용 ☑
+ * CrosConfig 고치기 ☑
+ * swagger 설정 제대로 수정하기 ☑
  */
 @SpringBootApplication
 public class CamfitApplication {
