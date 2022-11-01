@@ -77,6 +77,8 @@ public class BoardController {
 
     @GetMapping("")
     public ResponseEntity<List<BoardListDTO>> boardList(@RequestParam(defaultValue = "") String content,
+
+                                                        @Parameter(hidden = true)
                                                         @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         List<Board> boardList = boardService.list(content, pageable);
@@ -85,6 +87,8 @@ public class BoardController {
 
     @GetMapping("/{username}")
     public ResponseEntity<List<BoardListDTO>> memberBoardList(@PathVariable("username") String username,
+
+                                                              @Parameter(hidden = true)
                                                               @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         List<Board> boardList = boardService.memberList(username, pageable);

@@ -1,5 +1,6 @@
 package kr.hs.dgsw.camfit.camp.controller;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import kr.hs.dgsw.camfit.camp.Camp;
 import kr.hs.dgsw.camfit.camp.dto.CampDeleteDTO;
 import kr.hs.dgsw.camfit.camp.dto.CampInsertDTO;
@@ -58,8 +59,11 @@ public class CampController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<CampListDTO>> campList(@RequestParam(value = "name", defaultValue = "") String name,
-                               @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<List<CampListDTO>> campList(
+            @RequestParam(value = "name", defaultValue = "") String name,
+
+            @Parameter(hidden = true)
+            @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         List<Camp> campList = campService.list(name, pageable);
         List<CampListDTO> campListDTOList = new ArrayList<>();

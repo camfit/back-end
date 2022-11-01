@@ -1,5 +1,6 @@
 package kr.hs.dgsw.camfit.reservation.controller;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import kr.hs.dgsw.camfit.camp.dto.CampDeleteDTO;
 import kr.hs.dgsw.camfit.reservation.Reservation;
 import kr.hs.dgsw.camfit.reservation.dto.ReservationDeleteDTO;
@@ -61,8 +62,11 @@ public class ReservationController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<ReservationListDTO>> reservationList(@RequestParam(value = "member_id") Long memberId,
-                                             @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+    public ResponseEntity<List<ReservationListDTO>> reservationList
+            (@RequestParam(value = "member_id") Long memberId,
+
+             @Parameter(hidden = true)
+             @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
 
         List<Reservation> reservationList = reservationService.reservationList(memberId, pageable);
         List<ReservationListDTO> reservationListDTOList = new ArrayList<>();
