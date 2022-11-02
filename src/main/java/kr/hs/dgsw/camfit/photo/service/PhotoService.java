@@ -9,4 +9,5 @@ import java.util.List;
 public interface PhotoService {
     public PhotoListDTO findByFileId(Long id);
     public List<PhotoResponseDTO> findAllByBoard(Long boardId);
+    public List<String> findByIdList(Long id);
 }

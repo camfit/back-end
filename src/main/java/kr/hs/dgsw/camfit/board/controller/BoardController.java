@@ -101,7 +101,7 @@ public class BoardController {
     @GetMapping("/look/{id}")
     public ResponseEntity<BoardResponseDTO> searchById(@PathVariable("id") Long id) {
 
-        // 게시글 id로 해당 게시글 첨부파일 전체 조회
+        /*// 게시글 id로 해당 게시글 첨부파일 전체 조회
         List<PhotoResponseDTO> photoResponseDTOList = photoService.findAllByBoard(id);
         // 게시글 첨부파일 id를 담을 List 객체 생성
         List<Long> photoId = new ArrayList<>();
@@ -109,10 +109,10 @@ public class BoardController {
         // 각 첨부파일 id 추가
         for (PhotoResponseDTO photoResponseDTO : photoResponseDTOList) {
             photoId.add(photoResponseDTO.getFileId());
-        }
+        }*/
 
         // 게시글 id와 첨부파일 id 목록 전달받아 결과 반환
-        return ResponseEntity.ok().body(boardService.searchById(id, photoId));
+        return ResponseEntity.ok().body(boardService.searchById(id));
     }
 
     // board 객체를 boardListDTO로 변환하는 매소드

@@ -13,6 +13,7 @@ import kr.hs.dgsw.camfit.member.repository.MemberRepository;
 import kr.hs.dgsw.camfit.photo.Photo;
 import kr.hs.dgsw.camfit.photo.repository.PhotoRepository;
 import kr.hs.dgsw.camfit.photo.service.FileHandler;
+import kr.hs.dgsw.camfit.photo.service.PhotoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,6 +33,7 @@ public class BoardServiceImpl implements BoardService {
     private final MemberRepository memberRepository;
     private final FileHandler fileHandler;
     private final PhotoRepository photoRepository;
+    private final PhotoService photoService;
 
     @Override
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
@@ -45,7 +47,9 @@ public class BoardServiceImpl implements BoardService {
                 .member(member)
                 .build();
 
+        System.out.println("==========================================" + files.size());
         List<Photo> photos = fileHandler.parseFileInfo(board, files);
+        System.out.println("==========================================" + photos.size());
 
         // 파일이 존재할 때만 처리
         if(!photos.isEmpty()) {
@@ -117,13 +121,13 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional(readOnly = true)
-    public BoardResponseDTO searchById(Long id, List<Long> fileId) {
+    public BoardResponseDTO searchById(Long id) {
 
         Board board = getBoard(id);
 
         return BoardResponseDTO.builder()
                 .board(board)
-                .fileId(fileId)
+                .path(photoService.findByIdList(id))
                 .build();
     }
 

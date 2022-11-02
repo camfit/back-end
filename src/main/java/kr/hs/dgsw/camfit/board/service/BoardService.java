@@ -17,5 +17,5 @@ public interface BoardService {
     public Long delete(BoardDeleteDTO boardDeleteDTO);
     public List<Board> list(String content, Pageable pageable);
     public List<Board> memberList(String username, Pageable pageable);
-    public BoardResponseDTO searchById(Long id, List<Long> fileId);
+    public BoardResponseDTO searchById(Long id);
 }

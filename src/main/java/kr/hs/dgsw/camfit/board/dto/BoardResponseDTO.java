@@ -15,14 +15,14 @@ public class BoardResponseDTO {
     private String memberName;
     private String title;
     private String content;
-    private List<Long> fileId; //첨부 파일 id 목록
+    private List<String> path; //사진 경로
 
     @Builder
-    public BoardResponseDTO(Board board, List<Long> fileId) {
+    public BoardResponseDTO(Board board, List<String> path) {
         this.id = board.getId();
         this.memberName = board.getMember().getUsername();
         this.title = board.getTitle();
         this.content = board.getContent();
-        this.fileId = fileId;
+        this.path = path;
     }
 }

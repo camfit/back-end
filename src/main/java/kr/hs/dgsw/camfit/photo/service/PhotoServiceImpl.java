@@ -1,5 +1,6 @@
 package kr.hs.dgsw.camfit.photo.service;
 
+import kr.hs.dgsw.camfit.board.Board;
 import kr.hs.dgsw.camfit.exception.WrongIdException;
 import kr.hs.dgsw.camfit.photo.Photo;
 import kr.hs.dgsw.camfit.photo.dto.PhotoListDTO;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,5 +49,21 @@ public class PhotoServiceImpl implements PhotoService {
         return photos.stream()
                 .map(PhotoResponseDTO::new)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 이미지 경로 반환
+     */
+    @Override
+    public List<String> findByIdList(Long boardId) {
+
+        List<String> photoPath = new ArrayList<>();
+        List<Photo> photoList = photoRepository.findByBoardId(boardId);
+
+        photoList.forEach(p -> {
+            photoPath.add(p.getFilePath());
+        });
+
+        return photoPath;
     }
 }
