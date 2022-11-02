@@ -6,6 +6,7 @@ import kr.hs.dgsw.camfit.photo.Photo;
 import kr.hs.dgsw.camfit.photo.dto.PhotoInsertDTO;
 import kr.hs.dgsw.camfit.photo.repository.PhotoRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class FileHandler {
 
     private final PhotoRepository photoRepository;
@@ -39,23 +41,28 @@ public class FileHandler {
 
             // 파일을 저장할 세부 경로 지정
             // "fileUpload" + File.separator + "images" + File.separator + uuid
-            String path = "C:\\fileUpload\\images\\" + uuid;
-            File file = new File(path);
+            String absolutePath = "C:\\fileUpload\\";
+            String path = "images\\" + uuid;
+            System.out.println(absolutePath + path);
+            File file = new File(absolutePath + path);
+            System.out.println(file.getPath());
 
             // 디렉터리가 존재하지 않을 경우
             if(!file.exists()) {
-                System.out.println("================================== 디렉터리 생성");
+                log.info("디렉터리 생성");
                 boolean wasSuccessful = file.mkdirs();
-                System.out.println(wasSuccessful);
 
                 // 디렉터리 생성에 실패했을 경우
                 if(!wasSuccessful) {
+                    log.error("파일 생성 실패");
                     throw new FileFailedException("파일 생성 실패");
                 }
             }
 
             // 다중 파일 처리
             for (MultipartFile multipartFile : multipartFiles) {
+
+                log.info("파일 처리 작업");
 
                 // 파일 확장자 추출
                 String originalFileExtension;
@@ -77,14 +84,14 @@ public class FileHandler {
                 // 파일명 중복을 피하기 위해 나노초까지 얻어와 지정
                 String newFileName = System.nanoTime() + originalFileExtension;
 
-                // 파일 DTO 생성
+                // 사진 DTO 생성
                 PhotoInsertDTO photoInsertDTO = PhotoInsertDTO.builder()
                         .origFileName(multipartFile.getOriginalFilename())
                         .filePath(path + File.separator + newFileName)
                         .fileSize(multipartFile.getSize())
                         .build();
 
-                // 파일 DTO를 사용하여 Photo 앤티티 생성
+                // 사진 DTO를 사용하여 Photo 앤티티 생성
                 Photo photo = Photo.builder()
                         .origFileName(photoInsertDTO.getOrigFileName())
                         .filePath(photoInsertDTO.getFilePath())
@@ -100,7 +107,7 @@ public class FileHandler {
                 fileList.add(photo);
 
                 // 업로드 한 파일 데이터를 지정한 파일에 저장
-                file = new File(path + File.separator + newFileName);
+                file = new File(absolutePath + path + File.separator + newFileName);
                 multipartFile.transferTo(file);
 
                 // 파일 권한 설정(쓰기, 읽기)

@@ -47,9 +47,7 @@ public class BoardServiceImpl implements BoardService {
                 .member(member)
                 .build();
 
-        System.out.println("==========================================" + files.size());
         List<Photo> photos = fileHandler.parseFileInfo(board, files);
-        System.out.println("==========================================" + photos.size());
 
         // 파일이 존재할 때만 처리
         if(!photos.isEmpty()) {
