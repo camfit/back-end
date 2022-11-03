@@ -15,6 +15,7 @@ import kr.hs.dgsw.camfit.photo.repository.PhotoRepository;
 import kr.hs.dgsw.camfit.photo.service.FileHandler;
 import kr.hs.dgsw.camfit.photo.service.PhotoService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
@@ -38,6 +40,8 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public Board insert(BoardInsertDTO boardInsertDTO, List<MultipartFile> files) throws IOException {
+
+        log.info("boardService insert 실행, boardInsertDTO : {}, files : {}", boardInsertDTO, files);
 
         Member member = getMember(boardInsertDTO.getMemberId());
 
@@ -66,6 +70,8 @@ public class BoardServiceImpl implements BoardService {
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public Board update(BoardUpdateDTO boardUpdateDTO, List<MultipartFile> files) throws IOException {
 
+        log.info("boardService update 실행, boardUpdateDTO : {}, files : {}", boardUpdateDTO, files);
+
         Member member = getMember(boardUpdateDTO.getMemberId());
         Board board = getBoard(boardUpdateDTO.getBoardId());
 
@@ -90,6 +96,8 @@ public class BoardServiceImpl implements BoardService {
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public Long delete(BoardDeleteDTO boardDeleteDTO) {
 
+        log.info("boardService delete 실행, boardDeleteDTO : {}", boardDeleteDTO);
+
         Member member = getMember(boardDeleteDTO.getMemberId());
         Board board = getBoard(boardDeleteDTO.getBoardId());
 
@@ -105,12 +113,17 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional(readOnly = true)
     public List<Board> list(String content, Pageable pageable) {
+
+        log.info("boardService list 실행, 검색 : {}", content);
+
         return boardRepository.findByTitleContainingOrContentContaining(content, content, pageable);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Board> memberList(String username, Pageable pageable) {
+
+        log.info("boardService memberList 실행, 유저 이름 : {}", username);
 
         Member member = memberRepository.findByUsername(username);
 
@@ -120,6 +133,8 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional(readOnly = true)
     public BoardResponseDTO searchById(Long id) {
+
+        log.info("boardService searchById 실행, 게시판아이디 : {}", id);
 
         Board board = getBoard(id);
 

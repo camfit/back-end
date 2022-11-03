@@ -10,6 +10,7 @@ import kr.hs.dgsw.camfit.member.dto.MemberInsertDTO;
 import kr.hs.dgsw.camfit.member.dto.MemberUpdateDTO;
 import kr.hs.dgsw.camfit.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ import java.util.Collections;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
@@ -28,7 +30,10 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member insert(MemberInsertDTO memberInsertDTO) {
 
+        log.info("memberService insert 실행, memberInsertDTO : {}", memberInsertDTO);
+
         if(memberRepository.existsByUsername(memberInsertDTO.getUsername())) {
+            log.error("이미 존재하는 username : ", memberInsertDTO.getUsername());
             throw new DuplicateNameException("이미 존재하는 이름");
         }
 
@@ -52,10 +57,13 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member update(MemberUpdateDTO memberUpdateDTO) {
 
+        log.info("memberService update 실행, memberUpdateDTO : {}", memberUpdateDTO);
+
         Member member = memberRepository.findById(memberUpdateDTO.getMemberId()).orElseThrow(() -> new WrongIdException("존재하지 않는 회원"));
 
         if(memberRepository.existsByUsername(memberUpdateDTO.getUsername()) &&
             !member.getUsername().equals(memberUpdateDTO.getUsername())) {
+            log.error("이미 존재하는 username : ", memberUpdateDTO.getUsername());
             throw new DuplicateNameException("이미 존재하는 이름");
         }
 
@@ -67,7 +75,12 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Long delete(Long memberId) {
 
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new WrongIdException("존재하지 않는 회원"));
+        log.info("memberService delete 실행, memberId : {}", memberId);
+
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> {
+            log.error("존재하지 않는 회원아이디 : {}", memberId);
+            throw new WrongIdException("존재하지 않는 회원");
+        });
         memberRepository.delete(member);
 
         return member.getId();
@@ -75,6 +88,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member findByUsername(String username) {
+
+        log.info("memberService findByUsername 실행, username : {}", username);
+
         return memberRepository.findByUsername(username);
     }
 

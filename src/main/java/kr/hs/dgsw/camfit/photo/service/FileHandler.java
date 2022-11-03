@@ -43,9 +43,8 @@ public class FileHandler {
             // "fileUpload" + File.separator + "images" + File.separator + uuid
             String absolutePath = "C:\\fileUpload\\";
             String path = "images\\" + uuid;
-            System.out.println(absolutePath + path);
             File file = new File(absolutePath + path);
-            System.out.println(file.getPath());
+            log.info("file path {}", file.getPath());
 
             // 디렉터리가 존재하지 않을 경우
             if(!file.exists()) {
@@ -77,6 +76,7 @@ public class FileHandler {
                     } else if(contentType.equals("image/png")) {
                         originalFileExtension = ".png";
                     } else { //다른 확장자인 경우 처리 X
+                        log.error("확장자가 올바르지 않습니다.");
                         break;
                     }
                 }
