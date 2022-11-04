@@ -6,6 +6,7 @@ import kr.hs.dgsw.camfit.board.dto.*;
 import kr.hs.dgsw.camfit.board.service.BoardService;
 import kr.hs.dgsw.camfit.photo.Photo;
 import kr.hs.dgsw.camfit.photo.dto.PhotoResponseDTO;
+import kr.hs.dgsw.camfit.photo.properties.PhotoProperties;
 import kr.hs.dgsw.camfit.photo.service.PhotoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -126,7 +127,7 @@ public class BoardController {
                             .id(board.getId())
                             .title(board.getTitle())
                             .content(board.getContent())
-                            .thumbnailId(!board.getPhotos().isEmpty() ? board.getPhotos().get(0).getId() : 0L) // 첨부파일이 존재한다면 첫 번째 사진을 썸네일로 사용 첨부파일이 없다면 기본 썸네일을 사용
+                            .photoPath(!board.getPhotos().isEmpty() ? board.getPhotos().get(0).getFilePath() : PhotoProperties.PATH + "thumbnail\\thumbnail.png") // 첨부파일이 존재한다면 첫 번째 사진을 썸네일로 사용 첨부파일이 없다면 기본 썸네일을 사용
                             .regdate(board.getModifyDate() == null ? board.getRegdate().toString() : board.getModifyDate().toString() + "(수정됨)")
                             .username(board.getMember().getUsername())
                             .build()

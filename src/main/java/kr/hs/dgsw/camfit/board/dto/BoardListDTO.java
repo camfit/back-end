@@ -25,7 +25,7 @@ public class BoardListDTO {
     @NotBlank
     private String content;
 
-    private Long thumbnailId; //썸네일 id
+    private String photoPath; //사진 경로
 
     @NotNull
     private String regdate;
@@ -34,11 +34,11 @@ public class BoardListDTO {
     private String username;
 
     @Builder
-    public BoardListDTO(Long id, String title, String content, Long thumbnailId ,String regdate, String username) {
+    public BoardListDTO(Long id, String title, String content, String photoPath ,String regdate, String username) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.thumbnailId = thumbnailId;
+        this.photoPath = photoPath;
         this.regdate = regdate;
         this.username = username;
     }

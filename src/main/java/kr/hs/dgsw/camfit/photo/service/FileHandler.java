@@ -4,6 +4,7 @@ import kr.hs.dgsw.camfit.board.Board;
 import kr.hs.dgsw.camfit.exception.FileFailedException;
 import kr.hs.dgsw.camfit.photo.Photo;
 import kr.hs.dgsw.camfit.photo.dto.PhotoInsertDTO;
+import kr.hs.dgsw.camfit.photo.properties.PhotoProperties;
 import kr.hs.dgsw.camfit.photo.repository.PhotoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,8 +42,8 @@ public class FileHandler {
 
             // 파일을 저장할 세부 경로 지정
             // "fileUpload" + File.separator + "images" + File.separator + uuid
-            String absolutePath = "C:\\fileUpload\\";
-            String path = "images\\" + uuid;
+            String absolutePath = PhotoProperties.ABSOLUTE_PATH;
+            String path = PhotoProperties.PATH + uuid;
             File file = new File(absolutePath + path);
             log.info("file path {}", file.getPath());
 
@@ -73,8 +74,10 @@ public class FileHandler {
                 } else { // 확장자가 jpeg, png인 파일들만 받아서 처리
                     if(contentType.equals("image/jpeg")) {
                         originalFileExtension = ".jpg";
+
                     } else if(contentType.equals("image/png")) {
                         originalFileExtension = ".png";
+
                     } else { //다른 확장자인 경우 처리 X
                         log.error("확장자가 올바르지 않습니다.");
                         break;

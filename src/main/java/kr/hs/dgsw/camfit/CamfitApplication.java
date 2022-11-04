@@ -17,6 +17,7 @@ import org.springframework.data.web.config.PageableHandlerMethodArgumentResolver
  * jwt 사용 ☑
  * CrosConfig 고치기 ☑
  * swagger 설정 제대로 수정하기 ☑
+ * boardLit에서 photoId가 아닌 photoPath 반환
  */
 @SpringBootApplication
 public class CamfitApplication {
